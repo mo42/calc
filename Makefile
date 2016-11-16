@@ -1,5 +1,5 @@
 CC = clang
-CFLAGS = -g -Wall -O0 -c
+CFLAGS = -Wall -O3 -c
 
 calc : calc.o tokenize.o
 	$(CC) calc.o tokenize.o -o calc
