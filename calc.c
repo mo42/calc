@@ -97,6 +97,7 @@ int main(int argc, char *argv[]) {
     tokenize_init(argv[1]);
     next();
     printf("%f\n", expression());
+    return EXIT_SUCCESS;
   }
 }
 
