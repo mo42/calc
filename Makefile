@@ -1,18 +1,19 @@
+LEX = flex
+YACC = bison
 CC = clang
-CFLAGS = -Wall -O3 -c
 
-calc : calc.o tokenize.o
-	$(CC) calc.o tokenize.o -o calc
+calc: lex.yy.c calc.tab.c calc.tab.h
+	$(CC) -o calc calc.tab.c lex.yy.c
 
-tokenize.o : tokenize.c
-	$(CC) $(CFLAGS) tokenize.c
+lex.yy.c: calc.l calc.tab.h
+	$(LEX) calc.l
 
-calc.o : calc.c
-	$(CC) $(CFLAGS) calc.c
+calc.tab.c calc.tab.h: calc.y
+	$(YACC) -d calc.y
 
-.PHONY: clean mrproper
+.PHONY: clean
 clean :
 	rm -f *.o
-
-mrproper : clean
-	rm -r calc
+	rm -f *.c
+	rm -f *.h
+	rm calc
