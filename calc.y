@@ -1,6 +1,7 @@
 %{
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 int yylex();
 int yyerror(const char* s);
 void yy_scan_string(const char* s);
@@ -28,8 +29,14 @@ int main(int argc, char* argv[]) {
   if(argc < 2) {
     return EXIT_FAILURE;
   } else {
-    yy_scan_string(argv[1]);
+    unsigned long length = 0;
+    for (int i = 1; i < argc; ++i) { length += strlen(argv[i]); }
+    char* string = malloc((length + 1) * sizeof(char));
+    string[0] = '\0';
+    for (int i = 1; i < argc; ++i) { strcat(string, argv[i]); }
+    yy_scan_string(string);
     yyparse();
+    free(string);
     return EXIT_SUCCESS;
   }
 }
